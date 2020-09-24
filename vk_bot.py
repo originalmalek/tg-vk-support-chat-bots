@@ -9,7 +9,8 @@ from dotenv import load_dotenv
 from time import sleep
 from vk_api.longpoll import VkLongPoll, VkEventType
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-credentials.json"
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-credentials.json"
+credentials_raw = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
 
 
 
@@ -22,7 +23,7 @@ def detect_intent_text(text, project_id, session_id, language_code, vk_api):
 
     Using the same `session_id` between requests allows continuation
     of the conversation."""
-    session_client = dialogflow.SessionsClient()
+    session_client = dialogflow.SessionsClient(credentials=credentials)
     session = session_client.session_path(project_id, session_id)
 
     text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
