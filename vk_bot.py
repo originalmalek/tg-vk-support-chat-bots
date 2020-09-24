@@ -61,11 +61,12 @@ def main():
 
 if __name__ == '__main__':
     load_dotenv()
-    vk_token = os.getenv('VK_TOKEN')
+    vk_token = os.environ['VK_TOKEN']
+    project_id = os.environ['DIALOGFLOW_PROJECT_ID']
+    telegram_chat_id = os.environ['TELEGRAM_CHAT_ID']
+    telegram_token = os.environ['TELEGRAM_TOKEN']
+    
     vk_session = vk_api.VkApi(token=vk_token)
     vk_api = vk_session.get_api()
-    project_id = os.getenv('DIALOGFLOW_PROJECT_ID')
-    telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
-    telegram_token = os.getenv('TELEGRAM_TOKEN')
 
     main()
