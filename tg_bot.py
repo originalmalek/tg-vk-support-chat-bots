@@ -8,7 +8,10 @@ from time import sleep
 
 load_dotenv()
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dialogflow_creds.json"
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dialogflow_creds.json"
+google_creds = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+
+
 dialogflow_project_id = os.environ['DIALOGFLOW_PROJECT_ID']
 telegram_token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(telegram_token)
@@ -20,7 +23,7 @@ def detect_intent_text(dialogflow_project_id, chat_id, text, language_code):
 
     Using the same `session_id` between requests allows continuation
     of the conversation."""
-    session_client = dialogflow.SessionsClient()
+    session_client = dialogflow.SessionsClient(credentials=google_creds)
     session = session_client.session_path(dialogflow_project_id, chat_id)
 
     text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
