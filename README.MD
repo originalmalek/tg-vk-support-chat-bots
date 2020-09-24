@@ -25,6 +25,7 @@ Create file '.env' and add the code:
 TELEGRAM_TOKEN = your_telegram_bot_token
 VK_TOKEN = your_vk_access_token
 DIALOGFLOW_PROJECT_ID = your_dialog_flow_project_id
+TELEGRAM_CHAT_ID = your_telegram_chat_id
 ```
 
 Install requirements modules:
