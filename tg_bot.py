@@ -9,7 +9,7 @@ from time import sleep
 load_dotenv()
 
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dialogflow_creds.json"
-google_creds = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+google_creds = os.environ['GOOGLE_CREDENTIALS']
 
 
 dialogflow_project_id = os.environ['DIALOGFLOW_PROJECT_ID']
