@@ -1,10 +1,13 @@
-import os
 import dialogflow_v2 as dialogflow
-import vk_api
-from vk_api.longpoll import VkLongPoll, VkEventType
-from dotenv import load_dotenv
+import logging
+import os
 import random
+import telebot
+import vk_api
 
+from dotenv import load_dotenv
+from time import sleep
+from vk_api.longpoll import VkLongPoll, VkEventType
 
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dialogflow_creds.json"
 
@@ -28,12 +31,32 @@ def detect_intent_text(text, project_id, session_id, language_code, vk_api):
         send_message_vk(response.query_result.fulfillment_text, vk_api, session_id)
 
 
-def main():
-    longpoll = VkLongPoll(vk_session)
+def send_log_message(telegram_token, telegram_chat_id, text):
+    bot = telebot.TeleBot(telegram_token)
+    bot.send_message(telegram_chat_id, text)
 
-    for event in longpoll.listen():
-        if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-            detect_intent_text(event.text, project_id, event.user_id, 'RU', vk_api)
+
+def main():
+    class MyLogsHandler(logging.Handler):
+        def emit(self, record):
+            log_entry = self.format(record)
+            send_log_message(telegram_token, telegram_chat_id, log_entry)
+
+
+    logging.basicConfig(level=10)
+    logger = logging.getLogger('TG')
+    logger.addHandler(MyLogsHandler())
+    while True:
+        try:
+            logger.warning('Бот запущен! VK')
+            longpoll = VkLongPoll(vk_session)
+            for event in longpoll.listen():
+                if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+                    detect_intent_text(event.text, project_id, event.user_id, 'RU', vk_api)
+        except Exception as err:
+            logger.error('Бот VK упал с ошибкой!')
+            logger.error(err, exc_info=True)
+            sleep(60)
 
 
 if __name__ == '__main__':
@@ -42,4 +65,7 @@ if __name__ == '__main__':
     vk_session = vk_api.VkApi(token=vk_token)
     vk_api = vk_session.get_api()
     project_id = os.getenv('DIALOGFLOW_PROJECT_ID')
+    telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
+    telegram_token = os.getenv('TELEGRAM_TOKEN')
+
     main()
