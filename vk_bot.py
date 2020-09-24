@@ -52,8 +52,6 @@ def main():
     while True:
         try:
             logger.warning('Бот запущен! VK')
-            logger.warning(credentials)
-            logger.warning(service_account_info)
             longpoll = VkLongPoll(vk_session)
             for event in longpoll.listen():
                 if event.type == VkEventType.MESSAGE_NEW and event.to_me:
