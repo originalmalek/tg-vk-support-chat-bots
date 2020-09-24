@@ -15,6 +15,7 @@ credentials_json = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
 
 
 
+
 def send_message_vk(text, vk_api, session_id):
     vk_api.messages.send(user_id=session_id, message=text, random_id=random.randint(1, 1000))
 
@@ -52,6 +53,7 @@ def main():
     while True:
         try:
             logger.warning('Бот запущен! VK')
+            logger.warning(credentials_json)
             longpoll = VkLongPoll(vk_session)
             for event in longpoll.listen():
                 if event.type == VkEventType.MESSAGE_NEW and event.to_me:
