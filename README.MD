@@ -48,12 +48,12 @@ python vk_bot.py
 
 ### Aditional Information
 You have to upload intent f
-Get Dialogflow account and credentials [read here](https://cloud.google.com/dialogflow/es/docs/quick/setup).
-Creat Agent for Dialogflow [read here](https://cloud.google.com/dialogflow/es/docs/quick/build-agent)
-For getting key for vk bot: Create public -> Manage -> Api usage -> Create 'Access token'
-You can get dialogflow project_id from credentionals file.
+Get Dialogflow account and credentials [read here](https://cloud.google.com/dialogflow/es/docs/quick/setup).  
+Creat Agent for Dialogflow [read here](https://cloud.google.com/dialogflow/es/docs/quick/build-agent).  
+For getting key for vk bot: Create public -> Manage -> Api usage -> Create 'Access token'.  
+You can get dialogflow project_id from credentionals file.  
 
-Credential must be named 'dialogflow_creds.json'
+Credential must be named 'dialogflow_creds.json'.  
 
 
 ## Project goal
