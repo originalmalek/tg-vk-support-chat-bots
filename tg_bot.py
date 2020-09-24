@@ -8,7 +8,7 @@ from time import sleep
 
 load_dotenv()
 
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dialogflow_creds.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dialogflow_creds.json"
 dialogflow_project_id = os.environ['DIALOGFLOW_PROJECT_ID']
 telegram_token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(telegram_token)
