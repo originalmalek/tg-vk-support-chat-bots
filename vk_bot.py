@@ -11,7 +11,14 @@ from time import sleep
 from vk_api.longpoll import VkLongPoll, VkEventType
 
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-credentials.json"
-credentials_json = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+# credentials_json = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+# Read env data
+credentials_raw = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+
+# Generate credentials
+service_account_info = json.loads(credentials_raw)
+credentials = service_account.Credentials.from_service_account_info(
+    service_account_info)
 
 
 
@@ -25,7 +32,7 @@ def detect_intent_text(text, project_id, session_id, language_code, vk_api):
 
     Using the same `session_id` between requests allows continuation
     of the conversation."""
-    session_client = dialogflow.SessionsClient(credentials=credentials_json)
+    session_client = dialogflow.SessionsClient(credentials=credentials)
     session = session_client.session_path(project_id, session_id)
 
     text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
@@ -53,7 +60,7 @@ def main():
     while True:
         try:
             logger.warning('Бот запущен! VK')
-            logger.warning(credentials_json)
+            logger.warning(credentials)
             longpoll = VkLongPoll(vk_session)
             for event in longpoll.listen():
                 if event.type == VkEventType.MESSAGE_NEW and event.to_me:
