@@ -10,7 +10,7 @@ from time import sleep
 from vk_api.longpoll import VkLongPoll, VkEventType
 
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dialogflow_creds.json"
-google_creds = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+google_creds = os.environ['GOOGLE_CREDENTIALS']
 
 
 def send_message_vk(text, vk_api, session_id):
