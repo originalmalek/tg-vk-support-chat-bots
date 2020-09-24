@@ -12,15 +12,7 @@ from vk_api.longpoll import VkLongPoll, VkEventType
 
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-credentials.json"
 # credentials_json = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
-# Read env data
-credentials_raw = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
-
-# Generate credentials
-service_account_info = json.loads(credentials_raw)
-credentials = service_account.Credentials.from_service_account_info(
-    service_account_info)
-
-
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-credentials.json"
 
 
 def send_message_vk(text, vk_api, session_id):
