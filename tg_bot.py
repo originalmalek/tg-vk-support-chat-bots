@@ -8,11 +8,11 @@ from time import sleep
 
 load_dotenv()
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dialogflow_creds.json"
-dialogflow_project_id = os.getenv('DIALOGFLOW_PROJECT_ID')
-telegram_token = os.getenv('TELEGRAM_TOKEN')
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dialogflow_creds.json"
+dialogflow_project_id = os.environ['DIALOGFLOW_PROJECT_ID']
+telegram_token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(telegram_token)
-telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
+telegram_chat_id = os.environ['TELEGRAM_CHAT_ID']
 
 
 def detect_intent_text(dialogflow_project_id, chat_id, text, language_code):
