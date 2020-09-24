@@ -4,7 +4,6 @@ import os
 import random
 import telebot
 import vk_api
-import json
 
 from dotenv import load_dotenv
 from time import sleep
