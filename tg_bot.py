@@ -8,8 +8,7 @@ from time import sleep
 
 load_dotenv()
 
-# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-credentials.json"
-credentials = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+credentials = service_account.Credentials.from_service_account_file("google-credentials.json")
 
 
 dialogflow_project_id = os.environ['DIALOGFLOW_PROJECT_ID']
