@@ -5,14 +5,15 @@ import random
 import telebot
 import vk_api
 
+from google.oauth2 import service_account
 from dotenv import load_dotenv
 from time import sleep
 from vk_api.longpoll import VkLongPoll, VkEventType
 
 # os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-credentials.json"
 # credentials_json = os.environ['GOOGLE_APPLICATION_CREDENTIALS']
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-credentials.json"
-
+# os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "google-credentials.json"
+credentials = service_account.Credentials.from_service_account_file("google-credentials.json")
 
 def send_message_vk(text, vk_api, session_id):
     vk_api.messages.send(user_id=session_id, message=text, random_id=random.randint(1, 1000))
@@ -23,7 +24,7 @@ def detect_intent_text(text, project_id, session_id, language_code, vk_api):
 
     Using the same `session_id` between requests allows continuation
     of the conversation."""
-    session_client = dialogflow.SessionsClient()
+    session_client = dialogflow.SessionsClient(credentials=credentials)
     session = session_client.session_path(project_id, session_id)
 
     text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
