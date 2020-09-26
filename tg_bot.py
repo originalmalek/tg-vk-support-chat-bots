@@ -3,6 +3,7 @@ import os
 import telebot
 import logging
 
+from google.oauth2 import service_account
 from dotenv import load_dotenv
 from time import sleep
 
