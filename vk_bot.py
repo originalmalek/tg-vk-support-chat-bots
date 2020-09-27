@@ -7,10 +7,10 @@ import vk_api
 
 from google.oauth2 import service_account
 from dotenv import load_dotenv
-from time import sleep
 from vk_api.longpoll import VkLongPoll, VkEventType
 
 credentials = service_account.Credentials.from_service_account_file("google-credentials.json")
+
 
 def send_message_vk(text, vk_api, session_id):
     vk_api.messages.send(user_id=session_id, message=text, random_id=random.randint(1, 1000))
@@ -36,37 +36,31 @@ def send_log_message(telegram_token, telegram_chat_id, text):
     bot.send_message(telegram_chat_id, text)
 
 
-def main():
-    class MyLogsHandler(logging.Handler):
-        def emit(self, record):
-            log_entry = self.format(record)
-            send_log_message(telegram_token, telegram_chat_id, log_entry)
-
-
-    logging.basicConfig(level=10)
-    logger = logging.getLogger('TG')
-    logger.addHandler(MyLogsHandler())
-    while True:
-        try:
-            logger.warning('Бот запущен! VK')
-            longpoll = VkLongPoll(vk_session)
-            for event in longpoll.listen():
-                if event.type == VkEventType.MESSAGE_NEW and event.to_me:
-                    detect_intent_text(event.text, project_id, event.user_id, 'RU', vk_api)
-        except Exception as err:
-            logger.error('Бот VK упал с ошибкой!')
-            logger.error(err, exc_info=True)
-#             sleep(60)
-
-
 if __name__ == '__main__':
     load_dotenv()
     vk_token = os.environ['VK_TOKEN']
     project_id = os.environ['DIALOGFLOW_PROJECT_ID']
     telegram_chat_id = os.environ['TELEGRAM_CHAT_ID']
     telegram_token = os.environ['TELEGRAM_TOKEN']
-    
+
     vk_session = vk_api.VkApi(token=vk_token)
     vk_api = vk_session.get_api()
+    
+    class MyLogsHandler(logging.Handler):
+        def emit(self, record):
+            log_entry = self.format(record)
+            send_log_message(telegram_token, telegram_chat_id, log_entry)
 
-    main()
+    logging.basicConfig(level=10)
+    logger = logging.getLogger('TG')
+    logger.addHandler(MyLogsHandler())
+    while True:
+        try:
+            logger.warning('Bot VK is working')
+            longpoll = VkLongPoll(vk_session)
+            for event in longpoll.listen():
+                if event.type == VkEventType.MESSAGE_NEW and event.to_me:
+                    detect_intent_text(event.text, project_id, event.user_id, 'RU', vk_api)
+        except Exception as err:
+            logger.error('Bot VK got an error')
+            logger.error(err, exc_info=True)
