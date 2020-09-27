@@ -9,6 +9,7 @@ from dotenv import load_dotenv
 telegram_token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(telegram_token)
 
+
 def detect_intent_text(dialogflow_project_id, chat_id, text, language_code):
     session_client = dialogflow.SessionsClient(credentials=credentials)
     session = session_client.session_path(dialogflow_project_id, chat_id)
