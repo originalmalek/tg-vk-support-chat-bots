@@ -54,9 +54,8 @@ if __name__ == '__main__':
 
     while True:
         try:
-            logger.warning('Бот запущен! TG')
+            logger.warning('Bot TG is working')
             bot.polling()
-            logger.warning('bot poll')
         except Exception as err:
-            logger.error('Бот TG упал с ошибкой!')
+            logger.error('Bot TG got error')
             logger.error(err, exc_info=True)
