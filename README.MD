@@ -48,7 +48,7 @@ python vk_bot.py
 ```
 
 ### Aditional Information
-You have to upload intent f
+You have to upload intent first.
 Get Dialogflow account and credentials [read here](https://cloud.google.com/dialogflow/es/docs/quick/setup).  
 Creat Agent for Dialogflow [read here](https://cloud.google.com/dialogflow/es/docs/quick/build-agent).  
 For getting key for vk bot: Create public -> Manage -> Api usage -> Create 'Access token'.  
