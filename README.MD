@@ -54,8 +54,8 @@ Creat Agent for Dialogflow [read here](https://cloud.google.com/dialogflow/es/do
 For getting key for vk bot: Create public -> Manage -> Api usage -> Create 'Access token'.  
 You can get dialogflow project_id from credentionals file.  
 
-Credential must be named 'dialogflow_creds.json'.  
 
+### Program example
 ![tg bot](https://dvmn.org/media/filer_public/7a/08/7a087983-bddd-40a3-b927-a43fb0d2f906/demo_tg_bot.gif)
 
 ![vk bot](https://dvmn.org/media/filer_public/1e/f6/1ef61183-56ad-4094-b3d0-21800bdb8b09/demo_vk_bot.gif)
