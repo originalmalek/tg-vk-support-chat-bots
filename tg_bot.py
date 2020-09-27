@@ -3,29 +3,21 @@ import os
 import telebot
 import logging
 
+from google.oauth2 import service_account
 from dotenv import load_dotenv
-from time import sleep
 
-load_dotenv()
-
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dialogflow_creds.json"
-dialogflow_project_id = os.environ['DIALOGFLOW_PROJECT_ID']
 telegram_token = os.environ['TELEGRAM_TOKEN']
 bot = telebot.TeleBot(telegram_token)
-telegram_chat_id = os.environ['TELEGRAM_CHAT_ID']
 
 
 def detect_intent_text(dialogflow_project_id, chat_id, text, language_code):
-    """Returns the result of detect intent with texts as inputs.
-
-    Using the same `session_id` between requests allows continuation
-    of the conversation."""
-    session_client = dialogflow.SessionsClient()
+    session_client = dialogflow.SessionsClient(credentials=credentials)
     session = session_client.session_path(dialogflow_project_id, chat_id)
 
     text_input = dialogflow.types.TextInput(text=text, language_code=language_code)
     query_input = dialogflow.types.QueryInput(text=text_input)
     response = session_client.detect_intent(session=session, query_input=query_input)
+
     bot.send_message(chat_id=chat_id, text=response.query_result.fulfillment_text)
 
 
@@ -44,12 +36,18 @@ def send_log_message(telegram_token, telegram_chat_id, text):
     bot.send_message(telegram_chat_id, text)
 
 
-def main():
+if __name__ == '__main__':
+    load_dotenv()
+
+    credentials = service_account.Credentials.from_service_account_file("google-credentials.json")
+    dialogflow_project_id = os.environ['DIALOGFLOW_PROJECT_ID']
+    telegram_token = os.environ['TELEGRAM_TOKEN']
+    telegram_chat_id = os.environ['TELEGRAM_CHAT_ID']
+
     class MyLogsHandler(logging.Handler):
         def emit(self, record):
             log_entry = self.format(record)
             send_log_message(telegram_token, telegram_chat_id, log_entry)
-
 
     logging.basicConfig(level=10)
     logger = logging.getLogger('TG')
@@ -57,14 +55,8 @@ def main():
 
     while True:
         try:
-            logger.warning('Бот запущен! TG')
+            logger.warning('Bot TG is working')
             bot.polling()
-            logger.warning('bot poll')
         except Exception as err:
-            logger.error('Бот TG упал с ошибкой!')
+            logger.error('Bot TG got error')
             logger.error(err, exc_info=True)
-            sleep(60)
-
-
-if __name__ == '__main__':
-    main()
