@@ -1,10 +1,11 @@
 # AI Bot telegram/vk.com with DialogFlow
-The project makes a telegram/vk.com for user support using DialogFlow
+The project makes a telegram/vk.com bot for user support using DialogFlow.
+The bots can answer for user requests in telegram/vk.com.
 
 
 ## Description
 The code: 
-The project gets winner in instagram. 
+Create a chat bot for user support. The bot can answer on user question automatically. 
 
 The project uses:   
  * [Telegram](telegram.org)
@@ -13,11 +14,11 @@ The project uses:
   
 
 ## Requirements
-Python >=3.7
-Dialogflow(Google console) Credentials
-Registered bot on  [Telegram](https://t.me/botfather)
-Registered account and created public on [vk.com](https://vk.com/).
-Registered account in [DialogFlow](https://dialogflow.cloud.google.com/)
+Python >=3.7  
+Dialogflow(Google console) Credentials.  
+Registered bot on  [Telegram](https://t.me/botfather).  
+Registered account and created public on [vk.com](https://vk.com/).  
+Registered account in [DialogFlow](https://dialogflow.cloud.google.com/).  
 
  
 Create file '.env' and add the code:
@@ -33,6 +34,12 @@ Install requirements modules:
 pip install -r requirements.txt	
 ```
 
+You have to upload intent first.
+Get Dialogflow account and credentials [read here](https://cloud.google.com/dialogflow/es/docs/quick/setup).  
+Creat Agent for Dialogflow [read here](https://cloud.google.com/dialogflow/es/docs/quick/build-agent).  
+For getting key for vk bot: Create public -> Manage -> Api usage -> Create 'Access token'.  
+You can get dialogflow project_id from credentionals file.  
+
 
 ### How to use
 
@@ -46,14 +53,6 @@ Open and run 'tg_bot.py' or/and 'vk_bot.py'.
 python tg_bot.py
 python vk_bot.py
 ```
-
-### Aditional Information
-You have to upload intent first.
-Get Dialogflow account and credentials [read here](https://cloud.google.com/dialogflow/es/docs/quick/setup).  
-Creat Agent for Dialogflow [read here](https://cloud.google.com/dialogflow/es/docs/quick/build-agent).  
-For getting key for vk bot: Create public -> Manage -> Api usage -> Create 'Access token'.  
-You can get dialogflow project_id from credentionals file.  
-
 
 ### Program example
 ![tg bot](https://dvmn.org/media/filer_public/7a/08/7a087983-bddd-40a3-b927-a43fb0d2f906/demo_tg_bot.gif)
