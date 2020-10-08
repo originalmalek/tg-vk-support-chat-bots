@@ -1,9 +1,14 @@
+import argparse
 import os
+
 import dialogflow_v2 as dialogflow
 import requests
-from dotenv import load_dotenv
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "dialogflow_creds.json"
+from dotenv import load_dotenv
+from google.oauth2 import service_account
+
+
+credentials = service_account.Credentials.from_service_account_file("google-credentials.json")
 
 
 def structure_training_phases(dialogflow_question_phases):
@@ -13,20 +18,13 @@ def structure_training_phases(dialogflow_question_phases):
     return training_phases
 
 
-def get_intent_phases():
-    url = 'https://dvmn.org/media/filer_public/a7/db/a7db66c0-1259-4dac-9726-2d1fa9c44f20/questions.json'
+def get_intent_phases(url):
     response_phases = requests.get(url)
     response_phases.raise_for_status()
     return response_phases.json()
 
 
-def upload_intent(intent, project_id):
-    client = dialogflow.IntentsClient()
-    parent = client.project_agent_path(project_id)
-    client.create_intent(parent, intent)
-
-
-def create_intent_file(project_id):
+def create_intent_dict(url):
     training_phases = get_intent_phases()
     intent = {}
     for display_name in training_phases:
@@ -37,13 +35,25 @@ def create_intent_file(project_id):
                        'training_phrases': structure_training_phases(dialogflow_question_phases)
                        })
 
-        upload_intent(intent, project_id)
+    return intent
+
+
+def upload_intent(dialogflow_project_id, url):
+    intent = create_intent_dict(url)
+    client = dialogflow.IntentsClient(credentials=credentials)
+    parent = client.project_agent_path(dialogflow_project_id)
+    client.create_intent(parent, intent)
 
 
 def main():
+    parser = argparse.ArgumentParser(description='The programm upload intent to Google DialogFlow')
+    parser.add_argument('url', help='Enter url to json file or enter\n "https://dvmn.org/media/filer_public/a7/db/a7db66c0-1259-4dac-9726-2d1fa9c44f20/questions.json"\n for uploading default intent')
+    args = parser.parse_args()
+    url = args.url
+
     load_dotenv()
-    project_id = os.getenv('PROJECT_ID')
-    create_intent_file(project_id)
+    dialogflow_project_id = os.getenv('dialogflow_project_id')
+    upload_intent(dialogflow_project_id, url)
 
 
 if __name__ == '__main__':
