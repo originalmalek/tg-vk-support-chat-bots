@@ -10,7 +10,7 @@ from telegram_logger import MyLogsHandler
 logger = logging.getLogger('TG')
 
 load_dotenv()
-telegram_token = os.environ['TELEGRAM_TOKEN']
+telegram_token = os.getenv('TELEGRAM_TOKEN')
 bot = telebot.TeleBot(telegram_token)
 
 
@@ -20,7 +20,7 @@ def send_welcome(message):
 
 
 def send_answer_to_telegram(chat_id, text, language_code):
-    answer = detect_intent_text(chat_id, text, language_code)
+    answer = detect_intent_text(f'tg-{chat_id}', text, language_code)
     bot.send_message(chat_id=chat_id, text=answer.query_result.fulfillment_text)
 
 @bot.message_handler(content_types='text')
@@ -29,8 +29,8 @@ def send_question_to_dialogflow(message):
 
 
 if __name__ == '__main__':
-    telegram_chat_id = os.environ['TELEGRAM_CHAT_ID']
-   
+    telegram_chat_id = os.getenv('TELEGRAM_CHAT_ID')
+
     logging.basicConfig(level=10)
     logger.addHandler(MyLogsHandler())
 
