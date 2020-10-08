@@ -19,7 +19,7 @@ def send_message_vk(text, vk_api, session_id):
 
 
 def send_answer_to_vk(text, session_id, language_code, vk_api):
-    answer = detect_intent_text(session_id, text, language_code)
+    answer = detect_intent_text(f'vk-{session_id}', text, language_code)
     if answer.query_result.intent.display_name != 'Default Fallback Intent':
         send_message_vk(answer.query_result.fulfillment_text, vk_api, session_id)
 
