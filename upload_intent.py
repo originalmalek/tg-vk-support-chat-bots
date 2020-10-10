@@ -25,7 +25,7 @@ def get_intent_phases(url):
 
 
 def create_intent_dict(url):
-    training_phases = get_intent_phases()
+    training_phases = get_intent_phases(url)
     intent = {}
     for display_name in training_phases:
         dialogflow_answer_phases = training_phases[display_name]['answer']
@@ -52,7 +52,7 @@ def main():
     url = args.url
 
     load_dotenv()
-    dialogflow_project_id = os.getenv('dialogflow_project_id')
+    dialogflow_project_id = os.getenv('DIALOGFLOW_PROJECT_ID')
     upload_intent(dialogflow_project_id, url)
 
 
